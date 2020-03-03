@@ -30,7 +30,7 @@ Promise.all([
 fetch('https://randomuser.me/api/')
 	.then(function(response){
 
-		return response.json()
+		return response.json();
 	})
 	.then(function(user){
 		console.log('user', user.results[0].name.first)
@@ -38,4 +38,13 @@ fetch('https://randomuser.me/api/')
 	.catch(function()
 	{
 		console.log('Algo fallo');
-	})
+	});//Si se usa siempre terminarlos con punto y coma
+
+//API== https://yts.mx/api
+(async function load (){
+	//await
+	//action--animation--terror
+	const response = await fetch('https://yts.mx/api/v2/list_movies.json?genre=action');
+	const data = await response.json();
+	console.log(data);
+})()
