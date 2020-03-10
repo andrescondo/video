@@ -220,7 +220,6 @@ overflow: auto;
 {
 	display:flex;
 	 overflow: auto;
-	margin: 0 5px;
 }
 .primatyPlaylist-list .primaryPlaylistItem
 {
@@ -239,6 +238,7 @@ overflow: auto;
 	width: 170px;
 	height: 256px;
 	object-fit: cover;
+	margin:0 5px;
 }
 .primaryPlaylistItem-title
 {
