@@ -1,28 +1,4 @@
-//Comillas invertidas (  `  )   
 
-// Promise.all([
-// 		getUser,
-// 		getUser
-// 	])
-// .then()
-// .catch(function(message){
-// 	console.log(message)
-// })
-
-// fetch('https://randomuser.me/api/')
-// 	.then(function(response){
-
-// 		return response.json();
-// 	})
-// 	.then(function(user){
-// 		console.log('user', user.results[0].name.first)
-// 	})
-// 	.catch(function()
-// 	{
-// 		console.log('Algo fallo');
-// 	});//Si se usa siempre terminarlos con punto y coma
-
-//API== https://yts.mx/api
 (async function load (){
 	 async function getData(url){
 		const response = await fetch(url);
@@ -31,8 +7,11 @@
 	}
 
 	const $form = document.getElementById('form');
+	const $home = document.getElementById('home');
+
 	$form.addEventListener('submit', (event) =>{
 		event.preventDefault();
+		$home.classList.add('search-active');
 	})
 
 	const actionList = await getData('https://yts.mx/api/v2/list_movies.json?genre=action');
@@ -61,7 +40,7 @@
 
 	function addEventClick($element){
 		$element.addEventListener('click', () => {
-			alert('click');
+			showModal()
 		})
 		//$('div').on('click', function(){}) -- Como funcionaria en Jquery
 	}
@@ -85,10 +64,8 @@
 	const $animationContainer = document.getElementById('animation');
 	renderMovieList(animationList.data.movies , $animationContainer);
 
-	const $featuringContainer = document.getElementById('#featuring');
+	const $featuringContainer = document.getElementById('featuring');
 	
-	const $home = document.getElementById('#home');
-
 	const $modal = document.getElementById('modal');//usar el getEBI, para luego usar el querySelector
 	const $overlay = document.getElementById('overlay');
 	const $hideModal = document.getElementById('hide-modal');
@@ -97,6 +74,15 @@
 	const $modalImage = $modal.querySelector('img');
 	const $modalDescription = $modal.querySelector('p');
 
-	
-	// console.log(videoItemTemplate('image/covers/midnight.jpg', 'Bitcoins'));
+	function showModal(){
+		$overlay.classList.add('active');
+		$modal.style.animation = 'modalIn .8s forwards';
+	}
+
+	$hideModal.addEventListener('click', hideModal);
+	function hideModal(){
+		$overlay.classList.remove('active');
+		$modal.style.animation = 'modalOut .8s forwards';
+	}
+
 })()
