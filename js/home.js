@@ -1,52 +1,29 @@
 //Comillas invertidas (  `  )   
 
-const www = 'https://yts.mx/api/v2';
-console.log('Hola mundo');
-const getUser = new Promise(function(todoBien, todoMal){
-	//Llamar a un API
-	setTimeout(function(){
-		//luego de 3 segundos
-		todoMal('Se acabo el tiempo');
-	}, 3000)
-	
+// Promise.all([
+// 		getUser,
+// 		getUser
+// 	])
+// .then()
+// .catch(function(message){
+// 	console.log(message)
+// })
 
-})
+// fetch('https://randomuser.me/api/')
+// 	.then(function(response){
 
-getUser
-	.then(function(){
-		console.log('Todo bien esta en la vida');
-	})
-	.catch(function(message){
-		console.log(message);
-	})
-
-
-Promise.all([
-		getUser,
-		getUser
-	])
-.then()
-.catch(function(message){
-	console.log(message)
-})
-
-fetch('https://randomuser.me/api/')
-	.then(function(response){
-
-		return response.json();
-	})
-	.then(function(user){
-		console.log('user', user.results[0].name.first)
-	})
-	.catch(function()
-	{
-		console.log('Algo fallo');
-	});//Si se usa siempre terminarlos con punto y coma
+// 		return response.json();
+// 	})
+// 	.then(function(user){
+// 		console.log('user', user.results[0].name.first)
+// 	})
+// 	.catch(function()
+// 	{
+// 		console.log('Algo fallo');
+// 	});//Si se usa siempre terminarlos con punto y coma
 
 //API== https://yts.mx/api
 (async function load (){
-	//await
-	//action--animation--terror
 	 async function getData(url){
 		const response = await fetch(url);
 		const data = await response.json();
@@ -56,8 +33,8 @@ fetch('https://randomuser.me/api/')
 	const dramaList = await getData('https://yts.mx/api/v2/list_movies.json?genre=drama');
 	const animationList = await getData('https://yts.mx/api/v2/list_movies.json?genre=animation');
 	console.log(actionList,dramaList,animationList);
-	function videoItemTemplate(movie)
-	{
+
+	function videoItemTemplate(movie){
 		return (
 		`<div class="primaryPlaylistItem">
 			<div class="primaryPlaylistItem-image">
@@ -65,23 +42,23 @@ fetch('https://randomuser.me/api/')
 			</div>
 			<h4 class="primaryPlaylistItem-title">
 				${movie.title}
-			</h4>`
+			</h4>
+		</div>
+		`
 		)
 	}
-	function createTemplate(HTMLString)
-	{
+	function createTemplate(HTMLString){
 		const html = document.implementation.createHTMLDocument();
 		html.body.innerHTML = HTMLString;
 		return html.body.children[0];
 	}
 
-	function renderMovieList(list, $container)
-	{
+	function renderMovieList(list, $container){
 		$container.children[0].remove();
 		list.forEach((movie)=> {
 			const HTMLString = videoItemTemplate(movie);
 			const movieElement = createTemplate(HTMLString);
-			$actionContainer.append(movieElement);
+			$container.append(movieElement);//Por no llamar a container pase un dia pensando que algo había hecho mal f***
 		})
 	}
 	//IMPORTANTE cuando se usa una API sirve ver la ruta completa para la solicitud del dato requerido
