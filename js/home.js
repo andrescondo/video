@@ -11,7 +11,7 @@
 
 	$form.addEventListener('submit', (event) =>{
 		event.preventDefault();
-		$home.classList.add('search-active');
+		$home.classList.toggle('search-active');
 	})
 
 	const actionList = await getData('https://yts.mx/api/v2/list_movies.json?genre=action');
