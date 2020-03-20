@@ -3,7 +3,7 @@
 (async function load (){
 	 async function getData(url){
 		const response = await fetch(url);
-		const data = await response.json();
+		const data = await response.json()
 		return data;
 }
 
@@ -37,7 +37,7 @@
 
 	$form.addEventListener('submit', async(event) =>{
 		event.preventDefault();
-		$home.classList.add('search-active');
+		$home.classList.add('search-active')
 		const $loader = document.createElement('img');
 		setAttributes($loader, {
 			src:'image/loader.gif',
@@ -46,16 +46,20 @@
 		})
 		$featuringContainer.append($loader);
 
-		const data = new FormData($form);debugger
-		const peli = await getData(`${BASE_API}list_movie.json?limit=1&query_term=${data.get('name')}`)
+		const data = new FormData($form);
+		const {
+			data:{
+				movies:pelis
+			}
+		} = await getData(`${BASE_API}list_movie.json?limit=1&query_term=${data.get('name')}`)
 		debugger
-		// const HTMLString = featuringTemplate(peli.data.movie[0]);
-		// $featuringContainer.innerHTML = HTMLString
+		const HTMLString = featuringTemplate(pelis[0]);
+		$featuringContainer.innerHTML = HTMLString
 	})
 
-	const actionList = await getData( `${BASE_API}list_movies.json?genre=action`);
-	const dramaList = await getData(`${BASE_API}list_movies.json?genre=drama`);
-	const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`);
+	const actionList = await getData( `${BASE_API}list_movies.json?genre=action`)
+	const dramaList = await getData(`${BASE_API}list_movies.json?genre=drama`)
+	const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`)
 	console.log(actionList,dramaList,animationList);
 
 	function videoItemTemplate(movie){
@@ -95,13 +99,13 @@
 	}
 	//IMPORTANTE cuando se usa una API sirve ver la ruta completa para la solicitud del dato requerido
 	const $actionContainer = document.getElementById('action');//cuando se usa 	gEBI, no se debe llamar con un #
-	renderMovieList(actionList.data.movies , $actionContainer);
+	renderMovieList(actionList.data.movies, $actionContainer);
 
 	const $dramaContainer = document.getElementById('drama');
-	renderMovieList(dramaList.data.movies , $dramaContainer);
+	renderMovieList(dramaList.data.movies, $dramaContainer);
 
 	const $animationContainer = document.getElementById('animation');
-	renderMovieList(animationList.data.movies , $animationContainer);
+	renderMovieList(animationList.data.movies, $animationContainer);
 	
 	const $modal = document.getElementById('modal');//usar el getEBI, para luego usar el querySelector
 	const $overlay = document.getElementById('overlay');
