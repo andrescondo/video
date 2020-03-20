@@ -21,8 +21,7 @@
 
 	function featuringTemplate(peli){
 		return(
-			`
-			<div class="featuring">
+			`<div class="featuring">
 				<div class="featuring-image">
 					<img src="${peli.medium_cover_image}" width="70" height="100" alt="Portada">
 				</div>
@@ -30,12 +29,11 @@
 					<p class="featuring-title">Pelicula encontrada</p>
 					<p class="featuring-album">${peli.title}</p>
 				</div>
-			</div>
-			`
+			</div>`
 		)
 	}
 
-	$form.addEventListener('submit', async(event) =>{
+	$form.addEventListener('submit', async (event) =>{
 		event.preventDefault();
 		$home.classList.add('search-active')
 		const $loader = document.createElement('img');
@@ -43,16 +41,16 @@
 			src:'image/loader.gif',
 			height:50,
 			width:50,
-		})
+			})
 		$featuringContainer.append($loader);
 
-		const data = new FormData($form);
+		const data = new FormData($form);//debugger
 		const {
-			data:{
-				movies:pelis
+			data: {
+				movies: pelis 
 			}
 		} = await getData(`${BASE_API}list_movie.json?limit=1&query_term=${data.get('name')}`)
-		debugger
+		
 		const HTMLString = featuringTemplate(pelis[0]);
 		$featuringContainer.innerHTML = HTMLString
 	})
@@ -62,9 +60,9 @@
 	const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`)
 	console.log(actionList,dramaList,animationList);
 
-	function videoItemTemplate(movie){
+	function videoItemTemplate(movie, category){
 		return (
-		`<div class="primaryPlaylistItem">
+		`<div class="primaryPlaylistItem" data-id="${movie.id}" data-category="${category}">
 			<div class="primaryPlaylistItem-image">
 				<img src="${movie.medium_cover_image}">
 			</div>
@@ -83,15 +81,15 @@
 
 	function addEventClick($element){
 		$element.addEventListener('click', () => {
-			showModal()
+			showModal($element)
 		})
 		//$('div').on('click', function(){}) -- Como funcionaria en Jquery
 	}
 
-	function renderMovieList(list, $container){
+	function renderMovieList(list, $container, category){
 		$container.children[0].remove();
 		list.forEach((movie)=> {
-			const HTMLString = videoItemTemplate(movie);
+			const HTMLString = videoItemTemplate(movie, category);
 			const movieElement = createTemplate(HTMLString);
 			$container.append(movieElement);
 			addEventClick(movieElement);
@@ -99,13 +97,13 @@
 	}
 	//IMPORTANTE cuando se usa una API sirve ver la ruta completa para la solicitud del dato requerido
 	const $actionContainer = document.getElementById('action');//cuando se usa 	gEBI, no se debe llamar con un #
-	renderMovieList(actionList.data.movies, $actionContainer);
+	renderMovieList(actionList.data.movies, $actionContainer, 'action');
 
 	const $dramaContainer = document.getElementById('drama');
-	renderMovieList(dramaList.data.movies, $dramaContainer);
+	renderMovieList(dramaList.data.movies, $dramaContainer, 'drama');
 
 	const $animationContainer = document.getElementById('animation');
-	renderMovieList(animationList.data.movies, $animationContainer);
+	renderMovieList(animationList.data.movies, $animationContainer, 'animation');
 	
 	const $modal = document.getElementById('modal');//usar el getEBI, para luego usar el querySelector
 	const $overlay = document.getElementById('overlay');
@@ -115,9 +113,11 @@
 	const $modalImage = $modal.querySelector('img');
 	const $modalDescription = $modal.querySelector('p');
 
-	function showModal(){
+	function showModal($element){
 		$overlay.classList.add('active');
 		$modal.style.animation = 'modalIn .8s forwards';
+		const id = $element.dataset.id;
+		const category = $element.dataset.category;
 	}
 
 	$hideModal.addEventListener('click', hideModal);
