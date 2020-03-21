@@ -48,7 +48,7 @@
 		const {
 			data: {
 				movies: pelis
-			}//fuck, jajaja por una pinche letra no me servia la API, moraleja, lee bien la info del API que vas a usar
+			}
 		} = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`)
 		debugger
 		const HTMLString = featuringTemplate(pelis[0]);
@@ -114,17 +114,17 @@
 	const $modalDescription = $modal.querySelector('p');
 
 	function findById(list, id){ //importante retornar los valores de las funciones
-		return  list.find(movie => movie.id === parseInt(id, 10))
+		return list.find(movie => movie.id === parseInt(id, 10))
 	}
 	function findMovie(id, category){//importante retornar los valores de las funciones
 		switch (category){
-			case 'action' :{
+			case 'action' : {
 				return findById(actionList, id)
 			}
-			case 'drama':{
+			case 'drama' : {
 				return findById(dramaList, id)
 			}
-			default :{
+			default : {
 				return findById(animationList, id)
 			}
 		}
@@ -137,10 +137,15 @@
 		const id = $element.dataset.id;
 		const category = $element.dataset.category;
 		const data = findMovie(id, category);
+
+		$modalTitle.textContent = data.title;
+		//$modalImage.setAttribute('src', data.medium_cover_image);--Sale 404 por eso retiro esta opción
+		$modalDescription.textContent = data.description_full
+		//debugger
 	}
 
 	$hideModal.addEventListener('click', hideModal);
-	function hideModal($element){
+	function hideModal(){
 		$overlay.classList.remove('active');
 		$modal.style.animation = 'modalOut .8s forwards';
 	}
