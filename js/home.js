@@ -5,7 +5,7 @@
 		const response = await fetch(url);
 		const data = await response.json()
 		return data;
-}
+		}	
 
 	const $form = document.getElementById('form');
 	const $home = document.getElementById('home');
@@ -23,7 +23,7 @@
 		return(
 			`<div class="featuring">
 				<div class="featuring-image">
-					<img src="${peli.medium_cover_image}" width="70" height="100" alt="Portada">
+					<img src="${peli.medium_cover_image}" width="70" height="100" alt="">
 				</div>
 				<div class="featuring-content">
 					<p class="featuring-title">Pelicula encontrada</p>
@@ -33,7 +33,7 @@
 		)
 	}
 
-	$form.addEventListener('submit', async (event) =>{
+	$form.addEventListener('submit', async (event)=>{
 		event.preventDefault();
 		$home.classList.add('search-active')
 		const $loader = document.createElement('img');
@@ -47,17 +47,17 @@
 		const data = new FormData($form);//debugger
 		const {
 			data: {
-				movies: pelis 
-			}
-		} = await getData(`${BASE_API}list_movie.json?limit=1&query_term=${data.get('name')}`)
-		
+				movies: pelis
+			}//fuck, jajaja por una pinche letra no me servia la API, moraleja, lee bien la info del API que vas a usar
+		} = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`)
+		debugger
 		const HTMLString = featuringTemplate(pelis[0]);
-		$featuringContainer.innerHTML = HTMLString
+		$featuringContainer.innerHTML = HTMLString;
 	})
-
-	const actionList = await getData( `${BASE_API}list_movies.json?genre=action`)
-	const dramaList = await getData(`${BASE_API}list_movies.json?genre=drama`)
-	const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`)
+ 
+	const { data: {movies: actionList } } = await getData( `${BASE_API}list_movies.json?genre=action`)
+	const { data: {movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`)
+	const { data: {movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`)
 	console.log(actionList,dramaList,animationList);
 
 	function videoItemTemplate(movie, category){
@@ -97,13 +97,13 @@
 	}
 	//IMPORTANTE cuando se usa una API sirve ver la ruta completa para la solicitud del dato requerido
 	const $actionContainer = document.getElementById('action');//cuando se usa 	gEBI, no se debe llamar con un #
-	renderMovieList(actionList.data.movies, $actionContainer, 'action');
+	renderMovieList(actionList, $actionContainer, 'action');
 
 	const $dramaContainer = document.getElementById('drama');
-	renderMovieList(dramaList.data.movies, $dramaContainer, 'drama');
+	renderMovieList(dramaList, $dramaContainer, 'drama');
 
 	const $animationContainer = document.getElementById('animation');
-	renderMovieList(animationList.data.movies, $animationContainer, 'animation');
+	renderMovieList(animationList, $animationContainer, 'animation');
 	
 	const $modal = document.getElementById('modal');//usar el getEBI, para luego usar el querySelector
 	const $overlay = document.getElementById('overlay');
@@ -113,15 +113,34 @@
 	const $modalImage = $modal.querySelector('img');
 	const $modalDescription = $modal.querySelector('p');
 
+	function findById(list, id){ //importante retornar los valores de las funciones
+		return  list.find(movie => movie.id === parseInt(id, 10))
+	}
+	function findMovie(id, category){//importante retornar los valores de las funciones
+		switch (category){
+			case 'action' :{
+				return findById(actionList, id)
+			}
+			case 'drama':{
+				return findById(dramaList, id)
+			}
+			default :{
+				return findById(animationList, id)
+			}
+		}
+		
+	}
+
 	function showModal($element){
 		$overlay.classList.add('active');
 		$modal.style.animation = 'modalIn .8s forwards';
 		const id = $element.dataset.id;
 		const category = $element.dataset.category;
+		const data = findMovie(id, category);
 	}
 
 	$hideModal.addEventListener('click', hideModal);
-	function hideModal(){
+	function hideModal($element){
 		$overlay.classList.remove('active');
 		$modal.style.animation = 'modalOut .8s forwards';
 	}
