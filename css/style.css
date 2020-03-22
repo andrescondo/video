@@ -272,7 +272,7 @@ overflow: auto;
 
 .fadeIn
 {
-	animation:1000ms fadeIn;
+	animation:3000ms fadeIn;
 }
 
 @keyframes fadeIn

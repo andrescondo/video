@@ -3,9 +3,12 @@
 (async function load (){
 	 async function getData(url){
 		const response = await fetch(url);
-		const data = await response.json()
-		return data;
-		}	
+		const data = await response.json();
+		if (data.data.movie_count > 0){
+			return data
+		}
+		throw new Error('No se encontró ningún resultado');
+	}	
 
 	const $form = document.getElementById('form');
 	const $home = document.getElementById('home');
@@ -45,21 +48,22 @@
 		$featuringContainer.append($loader);
 
 		const data = new FormData($form);//debugger
-		const {
-			data: {
-				movies: pelis
-			}
-		} = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`)
-		debugger
-		const HTMLString = featuringTemplate(pelis[0]);
-		$featuringContainer.innerHTML = HTMLString;
+		try{
+			const {
+				data: {
+					movies: pelis
+				}
+			} = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`)
+			debugger
+			const HTMLString = featuringTemplate(pelis[0]);
+			$featuringContainer.innerHTML = HTMLString;
+		}catch(error){
+			alert(error.message);
+			$loader.remove();
+			$home.classList.remove('search-active');
+		}
 	})
  
-	const { data: {movies: actionList } } = await getData( `${BASE_API}list_movies.json?genre=action`)
-	const { data: {movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`)
-	const { data: {movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`)
-	console.log(actionList,dramaList,animationList);
-
 	function videoItemTemplate(movie, category){
 		return (
 		`<div class="primaryPlaylistItem" data-id="${movie.id}" data-category="${category}">
@@ -92,16 +96,23 @@
 			const HTMLString = videoItemTemplate(movie, category);
 			const movieElement = createTemplate(HTMLString);
 			$container.append(movieElement);
+			const image = movieElement.querySelector('img');
+			image.addEventListener('load', (event)=>{
+				event.target.classList.add('fadeIn');
+			})
 			addEventClick(movieElement);
 		})
 	}
 	//IMPORTANTE cuando se usa una API sirve ver la ruta completa para la solicitud del dato requerido
+	const { data: {movies: actionList } } = await getData( `${BASE_API}list_movies.json?genre=action`)
 	const $actionContainer = document.getElementById('action');//cuando se usa 	gEBI, no se debe llamar con un #
 	renderMovieList(actionList, $actionContainer, 'action');
 
+	const { data: {movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`)
 	const $dramaContainer = document.getElementById('drama');
 	renderMovieList(dramaList, $dramaContainer, 'drama');
 
+	const { data: {movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`)
 	const $animationContainer = document.getElementById('animation');
 	renderMovieList(animationList, $animationContainer, 'animation');
 	
