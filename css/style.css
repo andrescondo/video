@@ -73,8 +73,9 @@ body
 
 .sidebarPlaylist
 {
-overflow: auto;
+	overflow: auto;
 }
+
 
 /*myPlaylist*/
 
@@ -90,6 +91,7 @@ overflow: auto;
 	font-size: .8em;
 	display: block;
 	margin-bottom: 7px;
+	font-weight: 18px;
 }
 
 .myPlaylist-item:last-child a
@@ -183,11 +185,22 @@ overflow: auto;
 	justify-self:end;
 	margin:5px 0;
 }
+
 .user p
 {
 	display: flex;
 	align-items: center;
 	font-weight:300; 
+	margin:8px;
+	background: #171929;
+	color: #fff;
+	padding: 2px;
+	border-radius: 4px;
+}
+.user a
+{
+	text-decoration: none;
+	color:#fff;
 }
 .user img
 {
@@ -249,7 +262,7 @@ overflow: auto;
 }
 .featuring
 {
-	background:linear-gradient(to right, #f00, #ff458b);
+	background: linear-gradient(to right, #25013D, #8203F7);
 	display: flex;
 	height: 100%;
 	align-items: center;

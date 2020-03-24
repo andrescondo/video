@@ -54,7 +54,6 @@
 					movies: pelis
 				}
 			} = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`)
-			debugger
 			const HTMLString = featuringTemplate(pelis[0]);
 			$featuringContainer.innerHTML = HTMLString;
 		}catch(error){
