@@ -104,15 +104,18 @@
 		})
 	}
 	//IMPORTANTE cuando se usa una API sirve ver la ruta completa para la solicitud del dato requerido
-	const { data: {movies: actionList } } = await getData( `${BASE_API}list_movies.json?genre=action`)
+	const { data: {movies: actionList } } = await getData( `${BASE_API}list_movies.json?genre=action`);
+	window.localStorage.setItem('actionList', JSON.stringify(actionList))
 	const $actionContainer = document.getElementById('action');//cuando se usa 	gEBI, no se debe llamar con un #
 	renderMovieList(actionList, $actionContainer, 'action');
 
-	const { data: {movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`)
+	const { data: {movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`);
+	window.localStorage.setItem('dramaList', JSON.stringify(dramaList))
 	const $dramaContainer = document.getElementById('drama');
 	renderMovieList(dramaList, $dramaContainer, 'drama');
 
-	const { data: {movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`)
+	const { data: {movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`);
+	window.localStorage.setItem('animationList', JSON.stringify(animationList))
 	const $animationContainer = document.getElementById('animation');
 	renderMovieList(animationList, $animationContainer, 'animation');
 	
