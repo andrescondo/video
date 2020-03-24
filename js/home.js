@@ -1,4 +1,4 @@
-// comillas dobles ``
+// Por si en tu teclado no puedes ponerlas, aquí te las dejó. {comillas dobles ``}
 
 (async function load (){
 	 async function getData(url){
@@ -103,19 +103,30 @@
 			addEventClick(movieElement);
 		})
 	}
-	//IMPORTANTE cuando se usa una API sirve ver la ruta completa para la solicitud del dato requerido
-	const { data: {movies: actionList } } = await getData( `${BASE_API}list_movies.json?genre=action`);
-	window.localStorage.setItem('actionList', JSON.stringify(actionList))
-	const $actionContainer = document.getElementById('action');//cuando se usa 	gEBI, no se debe llamar con un #
+
+	async function cacheExist(category){
+		const listName= `${category}List`;
+		const cacheList = window.localStorage.getItem(listName);
+		if(cacheList){
+			return JSON.parse(cacheList);
+		}
+
+		const { data: {movies: data } } = await getData( `${BASE_API}list_movies.json?genre=${category}`);
+		window.localStorage.setItem(listName, JSON.stringify(data))
+		return data;
+	}
+
+	// const { data: {movies: actionList } } = await getData( `${BASE_API}list_movies.json?genre=action`);
+	const actionList = await cacheExist('action')
+	// window.localStorage.setItem('actionList', JSON.stringify(actionList))
+	const $actionContainer = document.getElementById('action');
 	renderMovieList(actionList, $actionContainer, 'action');
 
-	const { data: {movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`);
-	window.localStorage.setItem('dramaList', JSON.stringify(dramaList))
+	const dramaList = await cacheExist('drama')
 	const $dramaContainer = document.getElementById('drama');
 	renderMovieList(dramaList, $dramaContainer, 'drama');
 
-	const { data: {movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`);
-	window.localStorage.setItem('animationList', JSON.stringify(animationList))
+	const animationList = await cacheExist('animation')
 	const $animationContainer = document.getElementById('animation');
 	renderMovieList(animationList, $animationContainer, 'animation');
 	
@@ -127,10 +138,10 @@
 	const $modalImage = $modal.querySelector('img');
 	const $modalDescription = $modal.querySelector('p');
 
-	function findById(list, id){ //importante retornar los valores de las funciones
+	function findById(list, id){ 
 		return list.find(movie => movie.id === parseInt(id, 10))
 	}
-	function findMovie(id, category){//importante retornar los valores de las funciones
+	function findMovie(id, category){
 		switch (category){
 			case 'action' : {
 				return findById(actionList, id)
