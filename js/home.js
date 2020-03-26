@@ -136,6 +136,7 @@
 	const $modalTitle = $modal.querySelector('h1');
 	const $modalImage = $modal.querySelector('img');
 	const $modalDescription = $modal.querySelector('p');
+	console.log(actionList);
 
 	function findById(list, id){ 
 		return list.find(movie => movie.id === parseInt(id, 10))

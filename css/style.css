@@ -84,9 +84,15 @@ body
 	padding: 0 20px;
 }
 
+.myPlaylist-item
+{
+	padding: 10px 0;
+}
+
 .myPlaylist-item a
 {
 	color:#fff;
+
 	text-decoration: none;
 	font-size: .8em;
 	display: block;
@@ -113,6 +119,7 @@ body
 .playlistFriends-item
 {
 	color:#fff;
+	padding: 10px 30px;
 }
 
 .playlistFriends-item
@@ -128,6 +135,7 @@ body
 	align-items: center;
 	color:#fff;
 	text-decoration: none;
+	
 }
 
 .playlistFriends-item:hover a
