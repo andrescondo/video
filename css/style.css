@@ -415,12 +415,6 @@ body
 		height: 100vh;
 		grid-template-columns:1fr;
 	}
-	
-	.modal
-	{
-		width: 480px;
-		object-fit:cover;
-	}
 }
 
 @media (max-width: 360px)

@@ -126,3 +126,13 @@
 		transform: translateY(-3000px);
 	}
 }
+
+@media (max-width: 800px)
+{
+	.modal
+	{
+		width: 80vw;
+		justify-content: center;
+		object-fit: cover;
+	}
+}
