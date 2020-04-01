@@ -24,13 +24,16 @@
 
 	function featuringTemplate(peli){
 		return(
-			`<div class="featuring">
+			`<div class="featuring" >
 				<div class="featuring-image">
 					<img src="${peli.medium_cover_image}" width="70" height="100" alt="">
 				</div>
 				<div class="featuring-content">
 					<p class="featuring-title">Pelicula encontrada</p>
 					<p class="featuring-album">${peli.title}</p>
+				</div>
+				<div class="hideFeaturing">
+				 	<button id="hideFeaturing">Cerrar</button>
 				</div>
 			</div>`
 		)

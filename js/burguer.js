@@ -1,11 +1,12 @@
 // alert('To bien?');
 
-const ipad = window.matchMedia('screen and (max-windth: 799px)');
+const ipad = window.matchMedia('screen and (max-windth: 800px)');
 const menu = document.querySelector('.home-sidebar');
+const featuring = document.querySelector('.home-featuring');
+const burgerButton = document.querySelector('#burger-menu');
+const featuringButton = document.querySelector('#hideFeaturing');
 
-const burgerButton = document.querySelector('#burger-menu')
-
-ipad.addListener(validation)
+ipad.addListener(validation);
 
 function validation (event){
 	if(event.macthes){
@@ -14,11 +15,26 @@ function validation (event){
 		burgerButton.removeEventListener('click', hideShow);
 	}
 
+	if(event.macthes){
+		featuringButton.addEventListener('click', hideShow);
+	}else{
+		featuringButton.removeEventListener('click', hideShow);
+	}
+}
+
+validation(ipad);
+
+
 	function hideShow(){
 		if(menu.classList.contains('is-active')){
 			menu.classList.remove('is-active');
 		}else{
 			menu.classList.add('is-active');
 		}
-	}
+
+		if(featuring.classList.contains('is-active')){
+			featuring.classList.remove('is-active');
+		}else{
+			featuring.classList.add('is-active');
+		}
 }

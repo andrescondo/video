@@ -15,7 +15,7 @@
 
 .modal-btn.primary
 {
-	background: #7dc800;
+	background: #0f6d03;
 }
 .modal-btn.warning
 {
@@ -45,6 +45,7 @@
 }
 .modal
 {
+	font-family: 'Lato', sans-serif;
 	width:500px;
 	background: #fff;
 	padding: 2em;
@@ -132,6 +133,8 @@
 	.modal
 	{
 		width: 80vw;
+		background:#cac8c8;
+		color:#423e3e;
 		justify-content: center;
 		object-fit: cover;
 	}
